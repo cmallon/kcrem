@@ -1,0 +1,24 @@
+<div class="relative">
+    <div class="">
+        <div class="relative">
+            <div class="absolute inset-0">
+                {% if obj.image %}
+                <img class="h-full w-full object-cover" src="{{ Image(obj.image) }}" alt="{{ obj.image.alt }}">
+                {% endif %}
+                <div class="absolute inset-0 bg-[#333435] opacity-[.40] mix-blend-multiply"></div>
+            </div>
+            <div class="relative pb-32 pt-48 mx-auto container text-center md:text-left kc-container flex flex-col">
+                <div class="w-full md:w-2/3">
+                    <h1 class="text-white text-2xl lg:text-5xl lg:leading-tight">
+                        {{ obj.header }}
+                    </h1>
+                    {% if obj.subheader %}
+                        <h4 class="mt-6 text-white">
+                            {{ obj.subheader }}
+                        </h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+{% if menu %}
+	<ul class="relative">
+	{% for item in items %}
+		<li class="{{ item.classes | join(' ') }}" x-data="{show: false}" 
+			@mouseover="show = true"
+			@mouseleave="show = false"
+			@click="show = !show"
+		>
+			{% if item.children %}
+				<span class="text-white">{{ item.title }}</span>
+				<div x-show="show" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1" x-description="Flyout menu, show/hide based on flyout menu state." class="absolute z-10 inset-x-0 transform shadow-lg w-max mt-4" x-ref="panel" @click.away="show = false" x-cloak style="display:none">
+					<div class="flex flex-col bg-[#D6D6D6] p-4 w-auto space-y-4 text-[#4D4D4D] child">
+						{% for child in item.children %}
+							<a target="{{ child.target }}" href="{{ child.link }}" class="text-[#4D4D4D] child">{{ child.title }}</a>
+						{% endfor %}
+					</div>
+				</div>
+			{% else %}
+				<a target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+			{% endif %}
+		</li>
+	{% endfor %}
+	</ul>
+{% endif %}

@@ -1,0 +1,33 @@
+<div class="kc-container">
+    <div class="grid grid-flow-row lg:grid-flow-col auto-rows-max md:auto-cols-fr md:rounded-[20px] overflow-hidden bg-charcoal">
+        {% if obj.image_direction == "Left" %}
+        <div class="relative h-96 md:h-full">
+            <div class="absolute inset-0">
+                <img src="{{ Image(obj.image) }}" class="h-full w-full object-cover" />
+            </div>
+        </div>
+        {% endif %}
+        <div class="flex flex-col space-y-8 mx-16 my-24 justify-center">
+            <h3 class="text-white font-bold">{{ obj.header }}</h3>        
+            {% if obj.text %}
+                <div class="text-white">
+                    {{ obj.text }}
+                </div>
+            {% endif %}
+            {% if obj.call_to_action %}
+                <div>
+                    <a href="{{ obj.call_to_action.url }}" class="red-cta no_underline">
+                        {{ obj.call_to_action.title }}
+                    </a>
+                </div>
+            {% endif %}
+       </div>
+       {% if obj.image_direction == "Right" %}
+        <div class="relative h-96 md:h-full">
+            <div class="absolute inset-0">
+                <img src="{{ Image(obj.image) }}" class="h-full w-full object-cover" />
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>

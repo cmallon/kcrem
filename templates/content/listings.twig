@@ -1,0 +1,62 @@
+<div class="kc-container flex flex-col">
+    <h3 class="pb-8">View our listings</h3>
+    {% if obj.listing == 'Storage' %}
+    <div class="hidden md:block">
+        <table class="min-w-full divide-y divide-gray-300">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="text-left px-3.5 py-2">Dimensions</th>
+                    <th class="text-left px-3.5 py-2">Floor</th>
+                    <th class="text-left px-3.5 py-2">Location</th>
+                    <th class="text-left px-3.5 py-2">Price</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for listing in listings %}
+                    {% if listing.custom.rental_type == obj.listing and listing.custom.is_vacant %}
+                    <tr>
+                        <td class="px-3.5 py-2">{{ listing.content }}</td>
+                        <td class="px-3.5 py-2">{{ listing.custom.floor }}</td>
+                        <td class="px-3.5 py-2">{{ listing.custom.storage_city }}</td>
+                        <td class="px-3.5 py-2">${{ listing.custom.price }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="block md:hidden">
+        <ul role="list" class="divide-y divide-gray-200">
+            {% for listing in listings %}
+                {% if listing.custom.rental_type == obj.listing and listing.custom.is_vacant %}
+                  <li>
+                        <div class="py-4">
+                            <div class="flex flex-col justify-between">
+                                    <p><strong>Location</strong>: {{ listing.custom.storage_city|striptags }}</p>
+                                    <p><strong>Floor</strong>: {{ listing.custom.floor|striptags }}</p>
+                                    <p><strong>Dimensions</strong>: {{ listing.content|striptags }}</p>
+                                    <p><strong>Price</strong>: ${{ listing.custom.price }}</p>
+                            </div>
+                        </div>
+                    </li>  
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-32" id="listings">
+        {% for listing in listings %}
+            {% if listing.custom.rental_type == obj.listing and listing.custom.is_vacant %}
+                {% include "partial/listing.twig" %}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <h4 id="none" style="display: none">No units available at this time. Check back soon for new listings.</h4>
+    <script>
+        const elem = document.querySelector("#listings")
+        if(elem.childNodes.length <= 1) {
+            document.querySelector("#none").style.display = "block"
+        }
+    </script>
+    {% endif %}
+</div>

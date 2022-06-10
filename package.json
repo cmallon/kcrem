@@ -1,0 +1,28 @@
+{
+  "name": "kcrem",
+  "version": "1.0.0",
+  "description": "KCREM Wordpress Site",
+  "dependencies": {
+    "archiver": "^5.3.1",
+    "npm-run-all": "^4.1.5",
+    "run-p": "0.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "postcss": "^8.4.13",
+    "tailwindcss": "^3.0.24"
+  },
+  "scripts": {
+    "development:frontend": "npx tailwindcss --postcss -i ./static/tailwinds.css -c ./tailwind.config.js -o ./static/style.css",
+    "development": "run-p development:*",
+    "watch:frontend": "npm run development:frontend -- --watch --minify",
+    "watch": "run-p watch:*",
+    "production:frontend": "npm run development:frontend -- --minify",
+    "dev": "npm run development",
+    "production": "run-p production:*",
+    "prod": "npm run production",
+    "zip": "node scripts/zip.js kcrem",
+    "bundle": "run-s production zip"
+  },
+  "author": "Integral Marketing"
+}

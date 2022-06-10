@@ -1,0 +1,98 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="kc-container relative pt-36">
+		<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
+			<section class="article-content">
+				<div class="article-body flex flex-col space-y-16">
+					<div class="flex flex-col-reverse lg:flex-row gap-16">
+						<div class="flex flex-col-reverse w-full lg:w-1/2" x-data="Components.tabs()" @tab-click.window="onTabClick" @tab-keydown.window="onTabKeydown">
+							<div class="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
+								<div class="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
+									{% for image in post.meta('images') %}
+									<button class="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50" x-data="Components.tab(0)" arole="tab" x-init="init()" @click="onClick" @keydown="onKeydown" @tab-select.window="onTabSelect" :tabindex="selected ? 0 : -1" :aria-selected="selected ? 'true' : 'false'" type="button" tabindex="0" aria-selected="true">
+										<span class="absolute inset-0 rounded-md overflow-hidden">
+											<img src="{{ image.image.url }}" alt="" class="w-full h-full object-center object-cover">
+										</span>
+										<span class="absolute inset-0 rounded-md ring-2 ring-offset-2 pointer-events-none ring-indigo-500" aria-hidden="true" x-state:on="Selected" x-state:off="Not Selected" :class="{ 'ring-indigo-500': selected, 'ring-transparent': !(selected) }"></span>
+									</button>
+									{% endfor %}
+								</div>
+							</div>
+							<div class="h-full lg:h-[40rem]">
+								{% for image in post.meta('images') %}
+									<div id="tabs-{{ loop.index }}-panel-{{ loop.index }}" x-description="Tab panel, show/hide based on tab state." x-data="Components.tabPanel(0)" aria-labelledby="tabs-1-tab-1" x-init="init()" x-show="selected" @tab-select.window="onTabSelect" role="tabpanel" tabindex="0">
+										<img src="{{ image.image.url }}" class="w-full h-full lg:h-[40rem] object-center object-cover sm:rounded-lg">
+									</div>
+								{% endfor %}
+								
+							</div>
+						</div>
+						<div class="w-full lg:w-1/2 space-y-8">
+							<h1>{{ post.custom.address }}</h1>
+							<h3 class="text-electric_blue">${{ post.custom.price }}/mo</h3>
+							<div>
+								<h4 class="text-[#696969] flex flex-row divide-x-2 divide-[#696969] space-x-2">
+									{% if post.custom.rooms %}
+									<span>{{ post.custom.rooms }} {% if post.custom.rental_type == 'Residential' and post.custom.rooms > 0 %}Bedroom(s){% else %}Rooms{% endif %} </span>{% endif %} 
+									{% if post.custom.bathrooms %}<span class="pl-2">{{ post.custom.bathrooms }} Bathrooms</span>{% endif %}
+									{% if post.custom.square_footage %}<span class="pl-2">{{ post.custom.square_footage }} sq ft.</span>{% endif %}
+									{% if post.custom.floor %}
+									<span class="pl-2">
+										{% if post.custom.floor == "1" %}1st Floor{% endif %}
+										{% if post.custom.floor == "2" %}2nd Floor{% endif %}
+										{% if post.custom.floor == "3" %}3rd Floor{% endif %}
+										{% if post.custom.floor == "4" %}4th Floor{% endif %}
+										{% if post.custom.floor == "5" %}5th Floor{% endif %}
+									</span>
+									{% endif %}
+								</h4>
+							</div>
+							<div>
+								{{ post.content }}
+							</div>
+							{% if post.meta('amenities') %}
+							<div>
+								<p class="font-bold">Amenities</p>
+								<ul class="list-inside list-disc">
+									{% for obj in post.meta('amenities') %}
+										{% for o in obj %}
+											<li>{{ o }}</li>
+										{% endfor %}
+									{% endfor %}
+								</ul>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+					<div>
+						<div class="rounded-[20px] bg-electric_blue px-8 py-16">
+							<div class="text-white underline_me text-center">
+								<p class="text-2xl">Interested in this rental? Contact us at <a href="tel:508-400-0500" class="text-2xl">508-400-0500</a> or email us at <a href="mailto:rentals@kcrem.com" class="text-2xl">rentals@kcrem.com</a>.</p>
+							</div>
+						</div>
+					</div>
+					{% if listings %}
+						<div class="flex flex-col space-y-12">
+							<h3>View our listings</h3>
+							<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-32" id="listings">
+								{% for listing in listings %}
+									{% if listing.custom.rental_type == post.custom.rental_type and listing.custom.is_vacant and listing.id != post.id %}
+										{% include "partial/listing.twig" %}
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+						<h4 id="none" style="display: none">No units available at this time. Check back soon for new listings.</h4>
+						<script>
+							const elem = document.querySelector("#listings")
+							if(elem.childNodes.length <= 1) {
+								document.querySelector("#none").style.display = "block"
+							}
+						</script>
+					{% endif %}
+				</div>
+			</section>
+		</article>
+	</div><!-- /content-wrapper -->
+{% endblock %}

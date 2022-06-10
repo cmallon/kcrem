@@ -1,0 +1,90 @@
+{% block html_head_container %}
+
+{% include 'html-header.twig' %}
+	{% block head %}
+	{% endblock %}
+	</head>
+{% endblock %}
+
+	<body class="{{body_class}} {{post.object_type }} relative" data-template="base.twig">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N37CK9Q"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<a class="skip-link sr-only" href="#content">{{ _e( 'Skip to content') }}</a>
+		<header  x-data="{scrollAtTop: true, open: false}" {% if menu_ignore %} class="bg-charcoal fixed top-0 w-full header z-20" {% else %}class="header z-10 w-full" :class="{ 'bg-charcoal fixed top-0 z-20 shadow-md': !scrollAtTop, 'bg-transparent absolute top-0': scrollAtTop && !open, 'bg-charcoal fixed top-0 z-20': open }" @scroll.window="scrollAtTop = (window.pageYOffset > 200) ? false : true"{% endif %} x-transition.opacity>
+			{% block header %}
+				<div class="kc-container flex flex-row justify-between py-4 items-center relative">
+					<div class="hdr-logo" role="banner">
+						<a class="hdr-logo-link" href="{{site.url}}" rel="home">
+							<img src="{{ site.theme.link }}/static/logo.svg" class="w-auto h-16 md:h-24"/>
+						</a>
+					</div>
+					<nav id="nav-main" class="nav-main hidden md:block" role="navigation">
+						{% include "menu.twig" with {'items': menu.get_items} %}
+					</nav>
+					<div class="absolute inset-y-0 right-0 flex items-center md:hidden">
+						<a href="tel:508-400-0500" class="text-white">
+							<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M22.4377 28C21.2177 28 19.504 27.5588 16.9377 26.125C13.8171 24.375 11.4033 22.7594 8.29959 19.6638C5.30709 16.6732 3.85084 14.7369 1.81271 11.0282C-0.48979 6.84066 -0.0972899 4.64566 0.34146 3.70753C0.86396 2.58628 1.63521 1.91566 2.63209 1.25003C3.1983 0.879053 3.7975 0.561041 4.42209 0.30003C4.48459 0.273155 4.54271 0.24753 4.59459 0.224405C4.90396 0.0850305 5.37271 -0.125595 5.96646 0.0994055C6.36271 0.248155 6.71646 0.552531 7.27021 1.09941C8.40584 2.21941 9.95771 4.71378 10.5302 5.93878C10.9146 6.76441 11.169 7.30941 11.1696 7.92066C11.1696 8.63628 10.8096 9.18816 10.3727 9.78378C10.2908 9.89565 10.2096 10.0025 10.1308 10.1063C9.65521 10.7313 9.55084 10.9119 9.61959 11.2344C9.75896 11.8825 10.7983 13.8119 12.5065 15.5163C14.2146 17.2207 16.0883 18.1944 16.739 18.3332C17.0752 18.405 17.2596 18.2963 17.9046 17.8038C17.9971 17.7332 18.0921 17.66 18.1915 17.5869C18.8577 17.0913 19.384 16.7407 20.0827 16.7407H20.0865C20.6946 16.7407 21.2152 17.0044 22.0777 17.4394C23.2027 18.0069 25.7721 19.5388 26.899 20.6757C27.4471 21.2282 27.7527 21.5807 27.9021 21.9763C28.1271 22.5719 27.9152 23.0388 27.7771 23.3513C27.754 23.4032 27.7283 23.46 27.7015 23.5232C27.4384 24.1466 27.1185 24.7446 26.7458 25.3094C26.0815 26.3032 25.4083 27.0725 24.2846 27.5957C23.7075 27.8686 23.076 28.0069 22.4377 28Z" fill="white"/></svg>
+						</a>
+						<button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white hover:bg-charcoal focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" @click="open = !open" aria-expanded="false" x-bind:aria-expanded="open.toString()">
+							<span class="sr-only">Open main menu</span>
+							<svg x-description="Icon when menu is closed.Heroicon name: outline/menu" x-state:on="Menu open" x-state:off="Menu closed" class="block h-8 w-8" :class="{ 'hidden': open, 'block': !(open) }" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+							<svg x-description="Icon when menu is open. Heroicon name: outline/x" x-state:on="Menu open" x-state:off="Menu closed" class="hidden h-8 w-8" :class="{ 'block': open, 'hidden': !(open) }" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+						</button>
+        			</div>
+					
+				</div>
+				<div x-description="Mobile menu, show/hide based on menu state." class="md:hidden" id="mobile-menu" x-show="open" style="display: none;">
+					<div class="pt-2 pb-3 space-y-4 text-white px-4 font-lg">
+						{% for item in menu.items %}
+							<div class="{{ item.classes | join(' ') }}" x-data="{show: false}">
+								{% if item.children %}
+									<span class="text-white flex flex-row" @click="show = !show">
+										{{ item.title }}
+										<svg xmlns="http://www.w3.org/2000/svg" class="ml-4 h-6 w-6" :class="{'rotate-180' : show}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+									</span>
+									<div x-show="show" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" 
+									x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-1" 
+									x-description="Flyout menu, show/hide based on flyout menu state." x-ref="panel">
+										<div class="flex flex-col bg-charcoal p-4 w-auto space-y-4">
+											{% for child in item.children %}
+												<a target="{{ child.target }}" href="{{ child.link }}">{{ child.title }}</a>
+											{% endfor %}
+										</div>
+									</div>
+								{% else %}
+									<a target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+								{% endif %}
+							</div>
+						{% endfor %}
+						<div class="py-4 flex w-full justify-center">
+							 <a href="tel:508-400-0500"><button class="red-cta">Call us at 508-400-0500</button></a>
+						</div>
+					</div>
+				</div>
+
+			{% endblock %}
+		</header>
+
+		<section id="content" role="main" class="content-wrapper">
+			<div class="wrapper {{sidebar_class}} underline_me">
+				{% block content %}
+					Sorry, no content
+				{% endblock %}
+			</div>
+			{% if sidebar %}
+				<aside class="layout-sidebar">
+					{{sidebar}}
+				</aside>
+			{% endif %}
+		</section>
+
+		{% block footer %}
+			<footer id="footer" class="underline_me">
+				{% include 'footer.twig' %}
+			</footer>
+			{{ function('wp_footer') }}
+		{% endblock %}
+	</body>
+</html>

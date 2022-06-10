@@ -1,0 +1,22 @@
+<div class="kc-container">
+    {% if obj.box %}
+        <div class="grid grid-flow-row lg:grid-flow-col gap-1 auto-rows-fr md:auto-cols-fr rounded-[20px] overflow-hidden">
+            {% for box in obj.box %}
+                <a href="{{ box.link }}" class="w-full relative h-64 lg:h-[500px] mb-0 no_underline" x-data="{show:false}" @mouseover="show = true" @mouseleave="show = false">
+                    <div class="absolute inset-0">
+                        <img src="{{ Image(box.image) }}" class="h-full w-full object-cover" />
+                        <div class="absolute inset-0 {% if loop.index0 % 2 == 0 %}first_box {% else %}second_box{% endif %} opacity-[.40] mix-blend-multiply"></div>
+                    </div>
+                    <div class="flex flex-col relative h-full justify-center items-center text-center">
+                        <h4 class="font-bold text-white mx-8 ">{{ box.title }}</h4>
+                        {% if box.text %}
+                            <div x-show="show" style="display:none" class="text-white px-4 pt-4">
+                                {{ box.text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

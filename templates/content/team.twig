@@ -1,0 +1,23 @@
+<div class="kc-container">
+    <div class="flex flex-col space-y-8">
+        <h3>One hard working family.</h3>
+        <p>It's your business, your career, your home, and your stuff. We're here to help.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 py-16">
+    {% for member in obj.team_member %}
+        <div class="space-y-4">
+            {% if member.image %}
+            <div class="aspect-w-3 aspect-h-2">
+                <img class="object-cover shadow-lg rounded-lg" src="{{ Image(member.image) }}" alt="{{ member.image.alt }}">
+            </div>
+            {% endif %}
+            <div class="text-lg leading-6 font-medium space-y-1">
+                <h4>{{ member.name }}</h4>
+            </div>
+            <div>
+               {{ member.bio }}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>

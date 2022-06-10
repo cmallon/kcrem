@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+h1, .h1{
+    @apply text-[2.6rem] md:text-[4rem];
+}
+
+h2, .h2{
+    @apply font-bold text-[1.75rem] md:text-[3rem];
+}
+
+h3, .h3 {
+    @apply text-[1.5rem] md:text-[2.25rem];
+    line-height: 2.4rem;
+}
+
+h4, .h4 {
+    @apply font-normal text-[1.125rem] md:text-[1.375rem];
+
+}
+
+h5, .h5 {
+    font-size: 1.125rem;
+}
+
+p, li, a {
+    font-size: 1rem;
+}
+p:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+.underline_me a {
+    @apply underline;
+}
+
+a.no_underline {
+    @apply no-underline !important;
+}
+
+.kc-container {
+    @apply px-4 sm:px-6 lg:px-8 container mx-auto
+}
+
+.footer-secondary-nav {
+    @apply flex flex-col space-y-8 md:space-y-[50px]
+}
+
+.footer-secondary-nav li, .footer-secondary-nav a {
+    @apply text-white font-bold text-lg;   
+}
+
+.nav-main a:not(.child) {
+    @apply text-white flex-1
+}
+
+.nav-main ul {
+    @apply flex flex-row justify-between space-x-8
+}
+
+.homepage_hero {
+    @apply border-b-[15px] border-red
+}
+
+.first_box {
+    @apply bg-[#3968e1]
+}
+
+.second_box {
+    @apply bg-[#2c3c78]
+}
+
+.red-cta, .nf-form-content button, .nf-form-content input[type=button], .nf-form-content input[type=submit]{
+    @apply bg-red text-white drop-shadow-lg py-4 px-8 hover:bg-[#A30C05] active:bg-[#333435] cursor-pointer !important;
+}
+.secondary-cta {
+    @apply border-2 border-red text-red drop-shadow-lg py-4 px-8 hover:border-[#A30C05] hover:text-[#A30C05] active:bg-[#333435] active:text-white cursor-pointer
+}
+
+.nf-form-content label {
+    @apply text-base font-normal !important;
+}
+
+.nf-form-content .list-select-wrap .nf-field-element>div, .nf-form-content input:not([type=button]), .nf-form-content textarea {
+    @apply bg-white border-2 !important;
+}
+
+.nf-form-fields-required {
+    @apply pb-4
+}
+
+.listing:not(.art-studio) {
+    @apply rounded-[20px] border border-[#DDDDDD] shadow-lg 
+}
+
+.art-studio .image{
+    @apply rounded-full overflow-hidden
+}
+.art-studio .text{
+    @apply text-center
+}
+
+.text h2 {
+    font-size: 2rem;
+}
+
+p{
+    @apply text-base font-normal
+}
+
+.testimonial p {
+    @apply text-3xl italic
+}
+
+
+
