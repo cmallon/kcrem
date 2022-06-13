@@ -49,7 +49,7 @@ def create_listing(listing_data):
     if listing_data.get("price", 0):
         price = listing_data.get("price", 0)
     vacant = False
-    move_out = True
+    move_out = False
     future_move_in = True
     if listing_data["is_vacant"]:
         vacant = str(listing_data.get("is_vacant", False))
@@ -58,9 +58,8 @@ def create_listing(listing_data):
         and datetime.strptime(
             listing_data["expected_move_out"], "%Y-%m-%dT%H:%M:%S"
         ).date()
-        > datetime.today().date()
     ):
-        move_out = False
+        move_out = True
     if (
         listing_data["expected_move_in"]
         and datetime.strptime(
@@ -69,7 +68,7 @@ def create_listing(listing_data):
         > datetime.today().date()
     ):
         future_move_in = False
-    if vacant and move_out and future_move_in:
+    if (vacant or move_out) and future_move_in:
         wp_data = {
             "slug": listing_data["unit_name"],
             "title": listing_data["unit_name"],
