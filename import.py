@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from io import BytesIO
 
 import requests
@@ -58,6 +58,11 @@ def create_listing(listing_data):
         and datetime.strptime(
             listing_data["expected_move_out"], "%Y-%m-%dT%H:%M:%S"
         ).date()
+        > datetime.today().date()
+        and datetime.strptime(
+            listing_data["expected_move_out"], "%Y-%m-%dT%H:%M:%S"
+        ).date()
+        <= datetime.today().date() + timedelta(days=60)
     ):
         move_out = True
     if (
@@ -135,6 +140,8 @@ def parse_data(unit_data, type):
         square_footage = unit["SquareFootage"]
         is_vacant = unit["IsVacant"]
         expected_move_out = unit["Leases"][-1]["MoveOutDate"]
+        if unit["Leases"][-1]["ExpectedMoveOutDate"]:
+            expected_move_out = unit["Leases"][-1]["ExpectedMoveOutDate"]
         expected_move_in = unit["Leases"][-1]["MoveInDate"]
         city = unit["Addresses"][0]["City"]
         unit_id = unit["MarketingData"]["UnitID"]
