@@ -161,7 +161,9 @@ def parse_data(unit_data, type):
                 _id = image["File"]["FileID"]
                 _url = image["File"]["DownloadURL"]
                 media = get_media(_url, _id)
-                images.append({"image": media["id"]})
+                images.append(
+                    {"image": media["id"], "image_type": image["ImageTypeID"]}
+                )
         amenities = []
         for amenity in unit["Amenities"]:
             amenities.append({"amenity": str(amenity["Name"])})

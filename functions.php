@@ -136,3 +136,18 @@ function init_remove_support(){
     remove_post_type_support( $post_type, 'editor');
 }
 new StarterSite();
+
+add_filter( 'timber/twig', 'add_to_twig' );
+function add_to_twig( $twig ) {
+	$twig->addFilter(new \Twig_SimpleFilter('usort', 'usortFilter'));
+	return $twig;
+}
+
+function usortFilter($item){
+    usort($item, function ($item1, $item2) {
+        if ($item1['image_type'] == $item2['image_type']) return 0;
+        return $item1['image_type'] < $item2['image_type'] ? -1 : 1;
+    });
+
+    return $item;
+}

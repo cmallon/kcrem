@@ -6,10 +6,19 @@
 			<section class="article-content">
 				<div class="article-body flex flex-col space-y-16">
 					<div class="flex flex-col-reverse lg:flex-row gap-16">
-						<div class="flex flex-col-reverse w-full lg:w-1/2" x-data="Components.tabs()" @tab-click.window="onTabClick" @tab-keydown.window="onTabKeydown">
+						<div class="flex sm:hidden flex-col-reverse w-full lg:w-1/2">
+							<div class="single-item">
+								{% for image in post.meta('images')|usort %}
+									<div>
+										<img src="{{ image.image.url }}" alt="" class="w-full h-[40rem] object-center object-cover sm:rounded-lg">
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="hidden sm:flex flex-col-reverse w-full lg:w-1/2" x-data="Components.tabs()" @tab-click.window="onTabClick" @tab-keydown.window="onTabKeydown">
 							<div class="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
 								<div class="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
-									{% for image in post.meta('images') %}
+									{% for image in post.meta('images')|usort %}
 									<button class="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50" x-data="Components.tab(0)" arole="tab" x-init="init()" @click="onClick" @keydown="onKeydown" @tab-select.window="onTabSelect" :tabindex="selected ? 0 : -1" :aria-selected="selected ? 'true' : 'false'" type="button" tabindex="0" aria-selected="true">
 										<span class="absolute inset-0 rounded-md overflow-hidden">
 											<img src="{{ image.image.url }}" alt="" class="w-full h-full object-center object-cover">
@@ -20,7 +29,7 @@
 								</div>
 							</div>
 							<div class="h-full lg:h-[40rem]">
-								{% for image in post.meta('images') %}
+								{% for image in post.meta('images')|usort %}
 									<div id="tabs-{{ loop.index }}-panel-{{ loop.index }}" x-description="Tab panel, show/hide based on tab state." x-data="Components.tabPanel(0)" aria-labelledby="tabs-1-tab-1" x-init="init()" x-show="selected" @tab-select.window="onTabSelect" role="tabpanel" tabindex="0">
 										<img src="{{ image.image.url }}" class="w-full h-full lg:h-[40rem] object-center object-cover sm:rounded-lg">
 									</div>
@@ -94,5 +103,19 @@
 				</div>
 			</section>
 		</article>
-	</div><!-- /content-wrapper -->
+	</div>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- /content-wrapper -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script type="text/javascript">
+    $(document).ready(function(){
+      $('.single-item').slick({
+		dots: true,
+		infinite: true,
+      });
+    });
+  </script>
 {% endblock %}
